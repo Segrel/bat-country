@@ -4,6 +4,8 @@
 #	--output examples/simple_fal.jpg
 
 # import the necessary packages
+import matplotlib
+matplotlib.use('Agg')
 from batcountry import BatCountry
 from PIL import Image
 import numpy as np
