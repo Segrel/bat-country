@@ -4,6 +4,8 @@
 
 # import the necessary packages
 from __future__ import print_function
+import matplotlib
+matplotlib.use('Agg')
 from batcountry import BatCountry
 from imutils import paths
 from PIL import Image
@@ -18,16 +20,17 @@ ap.add_argument("-i", "--images", required=True,
 	help="base path to input directory of images")
 ap.add_argument("-o", "--output", required=True,
 	help="base path to output directory")
+ap.add_argument("-l", "--layers", nargs='+', default=["conv2/3x3", "inception_3b/5x5_reduce", "inception_4c/output"],
+	help="layer or layers to use")
 args = ap.parse_args()
 
 # buy the ticket, take the ride
 bc = BatCountry(args.base_model)
-layers = ("conv2/3x3", "inception_3b/5x5_reduce", "inception_4c/output")
 
 # loop over the input directory of images
 for imagePath in paths.list_images(args.images):
 	# loop over the layers
-	for layer in layers:
+	for layer in args.layers:
 		# we can't stop here...
 		print("[INFO] processing `{}`".format(imagePath))
 		image = bc.dream(np.float32(Image.open(imagePath)), end=layer)
